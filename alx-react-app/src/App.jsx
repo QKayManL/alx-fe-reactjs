@@ -1,4 +1,4 @@
-import Welcome from './components/Welcome';
+import WelcomeMessage from './components/WelcomeMessage';
 
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-    <Welcome />
+    <WelcomeMessage />
 
       <div>
         <a href="https://vite.dev" target="_blank">
