@@ -1,5 +1,5 @@
-import ProfilePage from './ProfilePage';
 import UserContext from './UserContext';
+import ProfilePage from './ProfilePage';
 
 function App() {
   const userData = {
@@ -15,4 +15,3 @@ function App() {
 }
 
 export default App;
-
