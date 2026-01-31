@@ -1,26 +1,30 @@
 import { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import { fetchAdvancedUsers } from "../services/githubService";
+import UserCard from "./UserCard";
 
-function Search() {
-  const [query, setQuery] = useState("");
-  const [user, setUser] = useState(null);
+const Search = () => {
+  const [username, setUsername] = useState("");
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-
-    if (!query.trim()) return;
-
     setLoading(true);
     setError("");
-    setUser(null);
+    setUsers([]);
 
     try {
-      const data = await fetchUserData(query);
-      setUser(data);
+      const data = await fetchAdvancedUsers({
+        username,
+        location,
+        minRepos,
+      });
+      setUsers(data.items);
     } catch (err) {
-      setError("Looks like we cant find the user");
+      setError("Looks like we can’t find the user");
     } finally {
       setLoading(false);
     }
@@ -28,31 +32,41 @@ function Search() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Search GitHub username"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
+
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+
+        <input
+          type="number"
+          placeholder="Min repos"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+        />
+
         <button type="submit">Search</button>
       </form>
 
       {loading && <p>Loading...</p>}
-
       {error && <p>{error}</p>}
 
-      {user && (
-        <div>
-          <img src={user.avatar_url} alt={user.login} width="100" />
-          <h3>{user.name || user.login}</h3>
-          <a href={user.html_url} target="_blank" rel="noreferrer">
-            View GitHub Profile
-          </a>
-        </div>
-      )}
+      <div>
+        {users.map((user) => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default Search;
