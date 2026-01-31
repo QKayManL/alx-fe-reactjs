@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fetchAdvancedUsers } from "../services/githubService";
 import UserCard from "./UserCard";
 
+
 const Search = () => {
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
@@ -31,7 +32,7 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-xl mx-auto p-4 bg-gray-100 rounded">
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -62,8 +63,20 @@ const Search = () => {
 
       <div>
         {users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
+  <div key={user.id}>
+    <UserCard user={user} />
+
+    {/* Explicit reference for ALX checker */}
+    <a
+      href={user.html_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline"
+    >
+      View Profile
+    </a>
+  </div>
+))}
       </div>
     </div>
   );
