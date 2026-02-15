@@ -5,12 +5,34 @@ function AddRecipeForm() {
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+  const newErrors = {};
+
+  if (!title) {
+    newErrors.title = "Title is required";
+  }
+
+  if (!ingredients) {
+    newErrors.ingredients = "Ingredients are required";
+  }
+
+  if (!steps) {
+    newErrors.steps = "Preparation steps are required";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Simple validation
-    if (!title || !ingredients || !steps) {
+    if (!validate()) {
       setError("All fields are required.");
       return;
     }
@@ -22,17 +44,8 @@ function AddRecipeForm() {
 
     setError("");
 
-    console.log({
-      title,
-      ingredients,
-      steps,
-    });
-
-    // Reset form
-    setTitle("");
-    setIngredients("");
-    setSteps("");
-  };
+    console.log("Form submitted successfully");
+    };
 
   return (
     <div className="max-w-2xl mx-auto p-6">
