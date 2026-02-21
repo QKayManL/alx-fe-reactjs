@@ -17,8 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route
-          path="/profile"
+        <Route path="/profile/*" 
           element={
             <ProtectedRoute>
               <Profile />
