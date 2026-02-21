@@ -25,7 +25,10 @@ test('toggles a todo', () => {
   render(<TodoList />)
 
   const todo = screen.getByText('Learn Testing')
-  fireEvent.click(todo)
 
-  expect(todo).toHaveStyle('text-decoration: line-through')
+  fireEvent.click(todo)
+  expect(todo).toHaveStyle({ textDecoration: 'line-through' })
+
+  fireEvent.click(todo)
+  expect(todo).toHaveStyle({ textDecoration: 'none' })
 })
